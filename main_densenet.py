@@ -187,7 +187,7 @@ def main(config):
     image_num = 0
     total_num = 0
     if config.test:
-        model.load_state_dict(torch.load(os.path.join(config.ckpt_path, 'epoch-34.pkl')))
+        model.load_state_dict(torch.load(os.path.join(config.ckpt_path, 'epoch-13.pkl')))
         # model.load_state_dict(torch.load('epoch-5.pkl'))
         model.eval()
         testset = AVADataset(csv_file=config.test_csv_file, root_dir=config.test_img_path, transform=val_transform)
@@ -216,16 +216,17 @@ def main(config):
                 DICT_Pred[title].append(fname)
             else:
                 DICT_Pred[title] = [fname]
-            #plt.imshow(images_)
-            #plt.savefig('img/'+ img_path[0].split('/')[-1].split('.')[0]+'.png')
+            plt.imshow(images_)
+            plt.savefig('output/img_result/'+ img_path[0].split('/')[-1].split('.')[0]+'.png')
             if (abs(int(title) - int(score.cpu().detach().numpy()[0])) <= 5):
                 count = count + 1
             # plt.show()
 
     predition = count / total_num
+    print('correct rate:', predition)
     for fname_label in DICT_Pred:
         LIST_label_train = DICT_Pred[fname_label]
-        print(fname_label, len(LIST_label_train))
+        # print(fname_label, len(LIST_label_train))
         with open('prediction_10_0.csv', 'ab') as output_file:
             LIST_ = []
             LIST_.append(int(fname_label))
@@ -244,16 +245,16 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     # input parameters
-    parser.add_argument('--train_img_path', type=str, default='/media/haoxin/A/data_work/art_rank/resize_img')
-    parser.add_argument('--val_img_path', type=str, default='/media/haoxin/A/data_work/art_rank/resize_img')
-    parser.add_argument('--test_img_path', type=str, default='/media/haoxin/A/data_work/art_rank/resize_img')
-    parser.add_argument('--train_csv_file', type=str, default='/media/haoxin/A/data_work/art_rank/exam01_jh_all_train.csv')
-    parser.add_argument('--val_csv_file', type=str, default='/media/haoxin/A/data_work/art_rank/exam01_jh_all_test.csv')
-    parser.add_argument('--test_csv_file', type=str, default='/media/haoxin/A/data_work/art_rank/exam01_jh_all_test.csv')
+    parser.add_argument('--train_img_path', type=str, default='/media/haoxin/A1/data_work/art_rank/resize_img')
+    parser.add_argument('--val_img_path', type=str, default='/media/haoxin/A1/data_work/art_rank/resize_img')
+    parser.add_argument('--test_img_path', type=str, default='/media/haoxin/A1/data_work/art_rank/resize_img')
+    parser.add_argument('--train_csv_file', type=str, default='/media/haoxin/A1/data_work/art_rank/exam01_jh_all_train.csv')
+    parser.add_argument('--val_csv_file', type=str, default='/media/haoxin/A1/data_work/art_rank/exam01_jh_all_test.csv')
+    parser.add_argument('--test_csv_file', type=str, default='/media/haoxin/A1/data_work/art_rank/exam01_jh_all_test.csv')
 
     # training parameters
-    parser.add_argument('--train', type=bool, default=True)
-    parser.add_argument('--test', type=bool, default=False)
+    parser.add_argument('--train', type=bool, default=False)
+    parser.add_argument('--test', type=bool, default=True)
     parser.add_argument('--conv_base_lr', type=float, default=2e-7)
     parser.add_argument('--dense_lr', type=float, default=2e-7)
     parser.add_argument('--lr_decay_rate', type=float, default=0.95)
@@ -265,11 +266,11 @@ if __name__ == '__main__':
     parser.add_argument('--epochs', type=int, default=30)
 
     # misc
-    parser.add_argument('--ckpt_path', type=str, default='./output/model')
+    parser.add_argument('--ckpt_path', type=str, default='./output/model_densenet')
     parser.add_argument('--multi_gpu', type=bool, default=False)
     parser.add_argument('--gpu_ids', type=list, default=None)
-    parser.add_argument('--warm_start', type=bool, default=True)
-    parser.add_argument('--warm_start_epoch', type=int, default=12)
+    parser.add_argument('--warm_start', type=bool, default=False)
+    parser.add_argument('--warm_start_epoch', type=int, default=0)
     parser.add_argument('--early_stopping_patience', type=int, default=5)
     parser.add_argument('--save_fig', type=bool, default=True)
     config = parser.parse_args()

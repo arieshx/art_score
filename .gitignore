@@ -107,4 +107,4 @@ venv.bak/
 *.pkl
 *.csv
 .idea/
-
+output/img_result/

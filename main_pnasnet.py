@@ -271,7 +271,7 @@ if __name__ == '__main__':
     parser.add_argument('--test_img_path', type=str, default='/media/haoxin/A/data_work/art_rank/resize_img')
     parser.add_argument('--train_csv_file', type=str, default='/media/haoxin/A/data_work/art_rank/exam01_jh_all_train.csv')
     parser.add_argument('--val_csv_file', type=str, default='/media/haoxin/A/data_work/art_rank/exam01_jh_all_test.csv')
-    parser.add_argument('--test_csv_file', type=str, default='/media/haoxin/A/data_work/art_rank/exam01_jh_all_test.csv')
+    parser.add_argument('--test_csv_file', type=str, default='/media/haoxin/A/data_work/art_rank/exam01_jh_all_test_1.csv')
 
     # training parameters
     parser.add_argument('--train', type=bool, default=False)
